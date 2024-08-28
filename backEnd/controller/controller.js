@@ -2,6 +2,11 @@ const two = require('../config/mongoDB')
 const Card = require('../model/cardModel')
 
 
+const check = async(req, res)=>{
+    console.log(req.body)
+    res.status(200).json('okey');
+}
+
 
 const submitCards = async(req, res)=>{
     try {
@@ -9,7 +14,10 @@ const submitCards = async(req, res)=>{
 
         const { title, description } = req.body;
 
-        console.log(title , description, 'this is title and desciption')
+        if(title.trim() == "" && !title && description.trim() && !description){
+            res.status(400).json('no data');
+            return;
+        }
         const newCard = new Card({
             title,
             description
@@ -19,7 +27,7 @@ const submitCards = async(req, res)=>{
         const savedCard = await newCard.save();
 
         // Respond with the saved card
-        res.status(201).json(savedCard);
+        res.status(200).json(savedCard);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -58,5 +66,6 @@ const searchCard = async (req, res) => {
 module.exports={
     submitCards,
     getCards,
-    searchCard
+    searchCard,
+    check
 }
