@@ -39,7 +39,7 @@ const getCards = async (req, res) => {
         // Fetch all cards from the database
         const cards = await Card.find();
 
-        // Respond with the cards
+        console.log(cards)
         res.status(200).json(cards);
     } catch (error) {
         res.status(500).json({ error: error.message });
